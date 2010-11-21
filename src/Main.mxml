@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx" width="754" height="496"
+	applicationComplete="initApplication()">
+	<fx:Script>
+		<![CDATA[
+			import logmeister.LogMeister;
+			import logmeister.connectors.TrazzleConnector;
+
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+
+			import flash.filesystem.File;
+
+			private function initApplication() : void {
+				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
+				error("initApplication: ");
+
+				if (templateDataGrid.dataProvider == null) {
+					templateDataGrid.dataProvider = new ArrayCollection();
+				}
+			}
+
+			private function handleClickGenerate(e : MouseEvent) : void {
+				var selectedItem : Object = templateDataGrid.selectedItem;
+				if (selectedItem == null) {
+					Alert.show("Please select a template first!");
+					return;
+				}
+				var templateFolder : String = templateDataGrid.selectedItem.templateFolder;
+				var templateName : String = templateDataGrid.selectedItem.templateName;
+				debug("handleClickGenerate: filepath: " + (templateFolder));
+
+				var file : File = new File(templateFolder);
+				if (file.exists) {
+					file.copyTo(new File(File.desktopDirectory.nativePath + "/" + templateName));
+				} else {
+					Alert.show("Folder doens't exist");
+				}
+			}
+
+			private function handleClickAddTemplate(event : MouseEvent) : void {
+				var directory : File = File.documentsDirectory;
+				directory.browseForDirectory("Select Directory");
+				directory.addEventListener(Event.SELECT, directorySelected);
+			}
+
+			private function directorySelected(event : Event) : void {
+				var directory : File = event.target as File;
+				var dp : ArrayCollection = templateDataGrid.dataProvider as ArrayCollection;
+				dp.addItem({templateFolder:directory.nativePath, templateName:directory.name});
+				templateDataGrid.dataProvider = dp;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:VRule x="397" y="10" height="436"/>
+	<mx:DataGrid x="28" y="47" width="349" height="364" id="templateDataGrid">
+		<mx:columns>
+			<mx:DataGridColumn width="120" headerText="Name" dataField="templateName"/>
+			<mx:DataGridColumn headerText="Folder" dataField="templateFolder"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<s:Button x="138" y="425" label="add template" width="132" click="handleClickAddTemplate(event);"/>
+	<s:Button x="555" y="422" label="Generate" width="132" click="handleClickGenerate(event);"/>
+	<s:TextInput x="593" y="69"/>
+	<s:Label x="28" y="27" text="Templates"/>
+	<s:Label x="418" y="27" text="Settings"/>
+</s:WindowedApplication>
