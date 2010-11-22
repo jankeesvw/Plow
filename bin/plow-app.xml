@@ -12,7 +12,7 @@
 	<copyright>Copyright 2010, Base 42</copyright>
 	<initialWindow>
 		<content>bin/plow.swf</content>
-		<title>Example Application</title>
+		<title>Plow</title>
 		<systemChrome>standard</systemChrome>
 		<transparent>false</transparent>
 		<visible>true</visible>
