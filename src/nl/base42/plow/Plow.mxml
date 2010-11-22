@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="496"
+	applicationComplete="initApplication()">
+	<fx:Script>
+		<![CDATA[
+			import logmeister.LogMeister;
+			import logmeister.connectors.TrazzleConnector;
+
+			import nl.base42.plow.data.DataManager;
+
+			import com.greensock.TweenLite;
+
+			import mx.collections.ArrayCollection;
+			import mx.events.ListEvent;
+
+			import flash.events.Event;
+
+			private function initApplication() : void {
+				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
+				addEventListener(Event.CLOSING, handleQuit);
+				error("init plow");
+
+				templateDataGrid.addEventListener(ListEvent.CHANGE, selectItem);
+
+				DataManager.getInstance();
+				DataManager.getInstance().addEventListener(Event.CHANGE, handleModelChanges);
+			}
+
+			private function selectItem(event : ListEvent) : void {
+				error("deselectItem: " + templateDataGrid.selectedIndex);
+
+				TweenLite.to(this, 0.2, {width:755});
+			}
+
+			private function handleModelChanges(event : Event) : void {
+				var dp : ArrayCollection = DataManager.getInstance().getDataProvider();
+				templateDataGrid.dataProvider = dp;
+			}
+
+			private function handleQuit(event : Event) : void {
+				// save?
+			}
+
+			private function handleClickAddTemplate(event : MouseEvent) : void {
+				DataManager.getInstance().addFolderAsTemplate();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:DataGrid x="28" y="47" width="349" height="364" id="templateDataGrid">
+		<mx:columns>
+			<mx:DataGridColumn width="120" headerText="Name"
+				dataField="name"/>
+			<mx:DataGridColumn headerText="Folder" dataField="path"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<s:Button x="138" y="425" label="Select blueprint" width="132"
+		click="handleClickAddTemplate(event);"/>
+	<s:Button x="555" y="422" label="Generate" width="132"/>
+	<s:TextInput x="593" y="69"/>
+	<s:Label x="28" y="27" text="Templates"/>
+	<s:Label x="418" y="27" text="Settings"/>
+</s:WindowedApplication>

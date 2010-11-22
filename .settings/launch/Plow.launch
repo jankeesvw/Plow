@@ -4,7 +4,7 @@
 <stringAttribute key="ARGUMENTS" value="-target-player={playerVersion}&#10;-library-path+=&quot;{flexSDK}/frameworks/locale/en_US&quot;&#10;-default-size=550,400"/>
 <booleanAttribute key="KILL_PREVIUOS_VIEWER" value="false"/>
 <stringAttribute key="LAUNCHER_DEPENDENCIES" value="[Self]"/>
-<stringAttribute key="MAIN_CLASS" value="src/Main.mxml"/>
+<stringAttribute key="MAIN_CLASS" value="src/nl/base42/plow/Plow.mxml"/>
 <stringAttribute key="OUTPUT" value="bin/plow.swf"/>
 <booleanAttribute key="PASS_CP" value="true"/>
 <booleanAttribute key="PASS_MAIN_CLASS" value="true"/>

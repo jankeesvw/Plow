@@ -14,5 +14,7 @@
     <AS3Classpath generateProblems="false" sdkBased="true" type="lib" useAsSharedCode="false">frameworks/libs/air/applicationupdater_ui.swc</AS3Classpath>
     <AS3Classpath generateProblems="false" sdkBased="true" type="lib" useAsSharedCode="false">frameworks/libs/air/servicemonitor.swc</AS3Classpath>
     <AS3Classpath generateProblems="true" sdkBased="false" type="source" useAsSharedCode="false">src</AS3Classpath>
-    <AS3Classpath generateProblems="false" sdkBased="false" type="lib" useAsSharedCode="false">src/logmeister.swc</AS3Classpath>
+    <AS3Classpath generateProblems="false" sdkBased="false" type="lib" useAsSharedCode="false">vendor/logmeister.swc</AS3Classpath>
+    <AS3Classpath generateProblems="false" sdkBased="false" type="lib" useAsSharedCode="false">vendor/MinimalComps.swc</AS3Classpath>
+    <AS3Classpath generateProblems="true" sdkBased="false" type="source" useAsSharedCode="false">vendor/greensock</AS3Classpath>
 </AS3Classpath>
