@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/1.5.3"
+	minimumPatchLevel="0">
+	<!--
+		AIR Application Descriptor File. See
+		http://www.adobe.com/go/learn_air_1.0_application_descriptor_en.
+	-->
+	<id>nl.base42.Plow</id>
+	<name>Plow</name>
+	<version>0.1beta</version>
+	<filename>Plow</filename>
+	<copyright>Copyright 2010, Base 42</copyright>
+	<initialWindow>
+		<content>bin/plow.swf</content>
+		<title>Example Application</title>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>true</maximizable>
+		<resizable>false</resizable>
+		<width>400</width>
+		<height>496</height>
+		<x>150</x>
+		<y>150</y>
+	</initialWindow>
+	<installFolder>Plow</installFolder>
+	<programMenuFolder>Plow</programMenuFolder>
+	<customUpdateUI>false</customUpdateUI>
+	<allowBrowserInvocation>false</allowBrowserInvocation>
+</application>
