@@ -8,14 +8,19 @@ package nl.base42.plow.data.dvo {
 	 * @author jankees [at] base42.nl
 	 */
 	public class BlueprintData {
+		public static const DATABASE_ID_FIELD : String = "id";
 		public static const DATABASE_NAME_FIELD : String = "name";
 		public static const DATABASE_PATH_FIELD : String = "path";
 		public var name : String;
 		public var path : String;
+		public var id : uint;
 
-		public function parseFromDatabase(result : Object) : void {
+		public function parseFromDatabase(result : Object) : Boolean {
+			id = result[DATABASE_ID_FIELD];
 			name = result[DATABASE_NAME_FIELD];
 			path = result[DATABASE_PATH_FIELD];
+
+			return new File(path).exists;
 		}
 
 		public function parseFromFile(inDirectory : File) : void {
@@ -24,7 +29,7 @@ package nl.base42.plow.data.dvo {
 		}
 
 		public function toObject() : Object {
-			return {name:name, path:path};
+			return {id:id, name:name, path:path};
 		}
 
 		public function toString() : String {
@@ -34,6 +39,10 @@ package nl.base42.plow.data.dvo {
 
 		public function toInsertSQL() : String {
 			return "INSERT INTO " + PlowDatabaseConnection.BLUEPRINT_TABLE_NAME + " (" + DATABASE_NAME_FIELD + ", " + DATABASE_PATH_FIELD + ") " + "VALUES ('" + name + "', '" + path + "')";
+		}
+
+		public function toDeleteSQL() : String {
+			return "DELETE FROM " + PlowDatabaseConnection.BLUEPRINT_TABLE_NAME + " WHERE " + DATABASE_ID_FIELD + " = '" + id + "'";
 		}
 	}
 }

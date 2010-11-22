@@ -28,12 +28,7 @@ package nl.base42.plow.data {
 
 		private function handleDatabaseUpdate(event : Event) : void {
 			_blueprints = _database.getBlueprints();
-			debug("handleDatabaseUpdate: " + _database.getBlueprints().length);
 			dispatchEvent(new Event(Event.CHANGE));
-		}
-
-		public function save() : void {
-			status("save database");
 		}
 
 		public function getDataProvider() : ArrayCollection {
@@ -55,6 +50,14 @@ package nl.base42.plow.data {
 			var d : BlueprintData = new BlueprintData();
 			d.parseFromFile(directory);
 			_database.saveNewItem(d);
+		}
+
+		public function getItemByID(inID : int) : BlueprintData {
+			for each (var blueprint : BlueprintData in _blueprints) {
+				if (blueprint.id == inID)
+					return blueprint;
+			}
+			return null;
 		}
 	}
 }

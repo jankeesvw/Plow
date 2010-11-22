@@ -31,7 +31,7 @@ package nl.base42.plow.data {
 			/** create tables if needed */
 			var sql : SQLStatement = new SQLStatement();
 			sql.sqlConnection = _connection;
-			sql.text = "CREATE TABLE IF NOT EXISTS " + BLUEPRINT_TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, " + BlueprintData.DATABASE_NAME_FIELD + " TEXT, " + BlueprintData.DATABASE_PATH_FIELD + " TEXT)";
+			sql.text = "CREATE TABLE IF NOT EXISTS " + BLUEPRINT_TABLE_NAME + " (" + BlueprintData.DATABASE_ID_FIELD + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BlueprintData.DATABASE_NAME_FIELD + " TEXT, " + BlueprintData.DATABASE_PATH_FIELD + " TEXT)";
 			sql.addEventListener(SQLEvent.RESULT, retrieveDataFromDatabase);
 			sql.execute();
 		}
@@ -50,8 +50,16 @@ package nl.base42.plow.data {
 			if (results) {
 				for each (var result : Object in results) {
 					var d : BlueprintData = new BlueprintData();
-					d.parseFromDatabase(result);
-					_blueprints.push(d);
+					if (d.parseFromDatabase(result)) {
+						// true if folder exists
+						_blueprints.push(d);
+					} else {
+						// delete folder from database if it doesn't exists
+						var sql : SQLStatement = new SQLStatement();
+						sql.sqlConnection = _connection;
+						sql.text = d.toDeleteSQL();
+						sql.execute();
+					}
 				}
 			} else {
 				status("database is empty");
@@ -67,7 +75,6 @@ package nl.base42.plow.data {
 			var sql : SQLStatement = new SQLStatement();
 			sql.sqlConnection = _connection;
 			sql.text = d.toInsertSQL();
-			debug("saveNewItem: sql.text: " + (sql.text));
 			sql.addEventListener(SQLEvent.RESULT, handleSave);
 			sql.execute();
 		}

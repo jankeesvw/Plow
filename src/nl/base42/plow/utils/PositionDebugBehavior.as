@@ -39,7 +39,6 @@ package nl.base42.plow.utils {
 
 		private function initialize() : void {
 			error("POSITION BEHAVIOUR INITIALIZED, REMOVE WHEN READY");
-			drawVisualisation();
 			_displayObject.stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyEvent);
 		}
 

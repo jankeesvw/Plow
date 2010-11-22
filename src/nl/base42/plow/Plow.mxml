@@ -8,6 +8,8 @@
 			import logmeister.connectors.TrazzleConnector;
 
 			import nl.base42.plow.data.DataManager;
+			import nl.base42.plow.data.dvo.BlueprintData;
+			import nl.base42.plow.ui.BlueprintForm;
 
 			import com.greensock.TweenLite;
 
@@ -15,6 +17,9 @@
 			import mx.events.ListEvent;
 
 			import flash.events.Event;
+
+			private static const OPEN_WIDTH : uint = 755;
+			private var _form : BlueprintForm;
 
 			private function initApplication() : void {
 				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
@@ -25,12 +30,22 @@
 
 				DataManager.getInstance();
 				DataManager.getInstance().addEventListener(Event.CHANGE, handleModelChanges);
+
+				_form = new BlueprintForm();
+				_form.x = 417;
+				_form.y = 47;
+				addElement(_form);
 			}
 
 			private function selectItem(event : ListEvent) : void {
-				error("deselectItem: " + templateDataGrid.selectedIndex);
-
-				TweenLite.to(this, 0.2, {width:755});
+				var id : int = templateDataGrid.selectedItem.id;
+				var selectedItem : BlueprintData = DataManager.getInstance().getItemByID(id);
+				if (selectedItem) {
+					TweenLite.to(this, 0.2, {width:OPEN_WIDTH});
+					_form.selectItem(selectedItem);
+				} else {
+					error("selectItem: invalid item selected");
+				}
 			}
 
 			private function handleModelChanges(event : Event) : void {
@@ -57,10 +72,7 @@
 			<mx:DataGridColumn headerText="Folder" dataField="path"/>
 		</mx:columns>
 	</mx:DataGrid>
-	<s:Button x="138" y="425" label="Select blueprint" width="132"
-		click="handleClickAddTemplate(event);"/>
-	<s:Button x="555" y="422" label="Generate" width="132"/>
-	<s:TextInput x="593" y="69"/>
-	<s:Label x="28" y="27" text="Templates"/>
+	<s:Button x="138" y="425" label="Select new blueprint" width="132" height="30" click="handleClickAddTemplate(event);"/>
+	<s:Label x="28" y="27" text="Blueprints"/>
 	<s:Label x="418" y="27" text="Settings"/>
 </s:WindowedApplication>
