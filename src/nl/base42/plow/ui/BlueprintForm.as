@@ -1,5 +1,7 @@
 package nl.base42.plow.ui {
 	import nl.base42.plow.data.dvo.BlueprintData;
+	import nl.base42.plow.data.dvo.BlueprintReplaceData;
+	import nl.base42.plow.utils.StringUtils;
 
 	import spark.components.Button;
 	import spark.components.Group;
@@ -13,6 +15,8 @@ package nl.base42.plow.ui {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
 
 	/**
 	 * @author jankees [at] base42.nl
@@ -22,9 +26,7 @@ package nl.base42.plow.ui {
 		private var _outputNameField : TextInput;
 		private var _alert : Alert;
 		private var _newFolder : File;
-
-		public function BlueprintForm() {
-		}
+		private var _rules : Array;
 
 		public function selectItem(selectedItem : BlueprintData) : void {
 			_blueprintData = selectedItem;
@@ -48,6 +50,15 @@ package nl.base42.plow.ui {
 			label.y = 6;
 			label.text = "Output folder name";
 			addElement(label);
+
+			_rules = _blueprintData.getPlowReplaceFields();
+			var leni : uint = _rules.length;
+			for (var i : uint = 0; i < leni; i++) {
+				var replacement : BlueprintReplaceData = _rules[i];
+				var replacementGroup : ReplaceGroup = new ReplaceGroup(replacement);
+				replacementGroup.y = i * 25 + 50;
+				addElement(replacementGroup);
+			}
 		}
 
 		private function handleGenerateClick(event : MouseEvent) : void {
@@ -55,7 +66,7 @@ package nl.base42.plow.ui {
 				Alert.show("Please give a folder output name", "Oops");
 				return;
 			}
-			var directory : File = File.documentsDirectory;
+			var directory : File = File.desktopDirectory;
 			directory.browseForDirectory("Select target directory");
 			directory.addEventListener(Event.SELECT, directorySelected);
 		}
@@ -95,9 +106,40 @@ package nl.base42.plow.ui {
 		}
 
 		private function processFile(file : File) : void {
-			debug("processFile: " + file.nativePath);
+			debug("processFile: " + file.nativePath + " rules: " + _rules.length);
+			var filename : String = file.name;
+			var replacement : BlueprintReplaceData;
+			var path : String ;
+			var newFileName : String;
+
 			if (file.isDirectory) {
+				// process folder name
+				// FIXME: This doesn't work yet...
+//				for each ( replacement  in _rules) {
+//					filename = StringUtils.replace(filename, replacement.replace, replacement.text);
+//				}
+//				if (filename != file.name) {
+//					path = StringUtils.remove(file.nativePath, file.name);
+//					newFileName = path + filename;
+//					file.moveTo(new File(newFileName));
+//				}
 			} else {
+				var fileStream : FileStream = new FileStream();
+				fileStream.open(file, FileMode.READ);
+				var content : String = fileStream.readMultiByte(file.size, File.systemCharset);
+				for each ( replacement in _rules) {
+					content = StringUtils.replace(content, replacement.replace, replacement.text);
+					filename = StringUtils.replace(filename, replacement.replace, replacement.text);
+				}
+				fileStream.open(file, FileMode.WRITE);
+				fileStream.writeUTFBytes(content);
+				fileStream.close();
+
+				if (filename != file.name) {
+					path = StringUtils.remove(file.nativePath, file.name);
+					newFileName = path + filename;
+					file.moveTo(new File(newFileName));
+				}
 			}
 		}
 	}

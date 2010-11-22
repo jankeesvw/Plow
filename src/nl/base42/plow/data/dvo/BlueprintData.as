@@ -1,8 +1,11 @@
 package nl.base42.plow.data.dvo {
 	import nl.base42.plow.data.PlowDatabaseConnection;
 	import nl.base42.plow.utils.ObjectTracer;
+	import nl.base42.plow.utils.Parser;
 
 	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
 
 	/**
 	 * @author jankees [at] base42.nl
@@ -17,7 +20,6 @@ package nl.base42.plow.data.dvo {
 		public var name : String;
 		public var path : String;
 		public var id : uint;
-		public var plowFileExists : Boolean;
 
 		public function parseFromDatabase(result : Object) : Boolean {
 			id = result[DATABASE_ID_FIELD];
@@ -30,13 +32,23 @@ package nl.base42.plow.data.dvo {
 		public function parseFromFile(inDirectory : File) : void {
 			name = inDirectory.name;
 			path = inDirectory.nativePath;
-
-			var blueprintfile : File = new File(path + File.separator + PLOW_BLUEPRINT_FILE);
-			plowFileExists = blueprintfile.exists;
 		}
 
 		public function toObject() : Object {
 			return {id:id, name:name, path:path};
+		}
+
+		public function getPlowReplaceFields() : Array {
+			// return empty array if there is no config file
+			if (!hasPlowConfigFile()) return [];
+
+			var file : File = plowConfigFile();
+			var fileStream : FileStream = new FileStream();
+			fileStream.open(file, FileMode.READ);
+			var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
+			fileStream.close();
+
+			return Parser.parseList(xml.replaces.replace, BlueprintReplaceData);
 		}
 
 		public function toString() : String {
@@ -50,6 +62,15 @@ package nl.base42.plow.data.dvo {
 
 		public function toDeleteSQL() : String {
 			return "DELETE FROM " + PlowDatabaseConnection.BLUEPRINT_TABLE_NAME + " WHERE " + DATABASE_ID_FIELD + " = '" + id + "'";
+		}
+
+		public function hasPlowConfigFile() : Boolean {
+			var blueprintfile : File = plowConfigFile();
+			return blueprintfile.exists;
+		}
+
+		private function plowConfigFile() : File {
+			return new File(path + File.separator + PLOW_BLUEPRINT_FILE);
 		}
 	}
 }
