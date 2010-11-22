@@ -11,9 +11,13 @@ package nl.base42.plow.data.dvo {
 		public static const DATABASE_ID_FIELD : String = "id";
 		public static const DATABASE_NAME_FIELD : String = "name";
 		public static const DATABASE_PATH_FIELD : String = "path";
+		//
+		public static const PLOW_BLUEPRINT_FILE : String = "plow.xml";
+		//
 		public var name : String;
 		public var path : String;
 		public var id : uint;
+		public var plowFileExists : Boolean;
 
 		public function parseFromDatabase(result : Object) : Boolean {
 			id = result[DATABASE_ID_FIELD];
@@ -26,6 +30,9 @@ package nl.base42.plow.data.dvo {
 		public function parseFromFile(inDirectory : File) : void {
 			name = inDirectory.name;
 			path = inDirectory.nativePath;
+
+			var blueprintfile : File = new File(path + File.separator + PLOW_BLUEPRINT_FILE);
+			plowFileExists = blueprintfile.exists;
 		}
 
 		public function toObject() : Object {

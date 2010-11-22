@@ -85,6 +85,7 @@ package nl.base42.plow.ui {
 			var contents : Array = folder.getDirectoryListing();
 			for each (var file : File in contents) {
 				if (file.isDirectory) {
+					processFile(file);
 					processFolderRecursive(file);
 				} else {
 					processFile(file);
@@ -95,6 +96,9 @@ package nl.base42.plow.ui {
 
 		private function processFile(file : File) : void {
 			debug("processFile: " + file.nativePath);
+			if (file.isDirectory) {
+			} else {
+			}
 		}
 	}
 }
