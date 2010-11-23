@@ -7,11 +7,11 @@
 	-->
 	<id>nl.base42.Plow</id>
 	<name>Plow</name>
-	<version>0.1beta</version>
+	<version>0.5</version>
 	<filename>Plow</filename>
 	<copyright>Copyright 2010, Base 42</copyright>
 	<initialWindow>
-		<content>plow.swf</content>
+		<content>bin/plow.swf</content>
 		<title>Plow</title>
 		<systemChrome>standard</systemChrome>
 		<transparent>false</transparent>
