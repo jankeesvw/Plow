@@ -10,11 +10,11 @@
 			import nl.base42.plow.data.DataManager;
 			import nl.base42.plow.data.dvo.BlueprintData;
 			import nl.base42.plow.ui.BlueprintForm;
+			import nl.base42.plow.ui.ColumnOptions;
 
 			import com.greensock.TweenLite;
 
 			import mx.collections.ArrayCollection;
-			import mx.events.ListEvent;
 
 			import flash.events.Event;
 
@@ -26,7 +26,7 @@
 				addEventListener(Event.CLOSING, handleQuit);
 				error("init plow");
 
-				templateDataGrid.addEventListener(ListEvent.CHANGE, selectItem);
+				templateDataGrid.addEventListener(MouseEvent.CLICK, handleMouseClickList);
 
 				DataManager.getInstance();
 				DataManager.getInstance().addEventListener(Event.CHANGE, handleModelChanges);
@@ -37,8 +37,17 @@
 				addElement(_form);
 			}
 
-			private function selectItem(event : ListEvent) : void {
+			private function handleMouseClickList(event : MouseEvent) : void {
 				var id : int = templateDataGrid.selectedItem.id;
+
+				if (event.target is Button) {
+					if (Button(event.target).id == ColumnOptions.DELETE_BUTTON_ID) {
+						DataManager.getInstance().removeItemByID(id);
+						return;
+					}
+				}
+
+				error("selectItem: " + event.target);
 				var selectedItem : BlueprintData = DataManager.getInstance().getItemByID(id);
 				if (selectedItem) {
 					TweenLite.to(this, 0.4, {width:OPEN_WIDTH});
@@ -70,9 +79,12 @@
 			<mx:DataGridColumn width="120" headerText="Name"
 				dataField="name"/>
 			<mx:DataGridColumn headerText="Folder" dataField="path"/>
+			<mx:DataGridColumn itemRenderer="nl.base42.plow.ui.ColumnOptions"
+				width="80" resizable="false" sortable="false"/>
 		</mx:columns>
 	</mx:DataGrid>
-	<s:Button x="138" y="425" label="Select new blueprint" width="132" height="30" click="handleClickAddTemplate(event);"/>
+	<s:Button x="138" y="425" label="Select new blueprint" width="132"
+		height="30" click="handleClickAddTemplate(event);"/>
 	<s:Label x="28" y="27" text="Blueprints"/>
 	<s:Label x="418" y="27" text="Settings"/>
 </s:WindowedApplication>

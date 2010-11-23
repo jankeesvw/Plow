@@ -79,6 +79,14 @@ package nl.base42.plow.data {
 			sql.execute();
 		}
 
+		public function deleteItem(d : BlueprintData) : void {
+			var sql : SQLStatement = new SQLStatement();
+			sql.sqlConnection = _connection;
+			sql.text = d.toDeleteSQL();
+			sql.addEventListener(SQLEvent.RESULT, handleSave);
+			sql.execute();
+		}
+
 		private function handleSave(event : SQLEvent) : void {
 			retrieveDataFromDatabase();
 		}

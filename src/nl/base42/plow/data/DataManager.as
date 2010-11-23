@@ -59,5 +59,10 @@ package nl.base42.plow.data {
 			}
 			return null;
 		}
+
+		public function removeItemByID(id : int) : void {
+			var d : BlueprintData = getItemByID(id);
+			_database.deleteItem(d);
+		}
 	}
 }
