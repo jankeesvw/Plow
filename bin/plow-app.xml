@@ -7,22 +7,15 @@
 	-->
 	<id>nl.base42.Plow</id>
 	<name>Plow</name>
-	<version>0.5</version>
+	<version>0.6</version>
 	<filename>Plow</filename>
 	<copyright>Copyright 2010, Base 42</copyright>
 	<initialWindow>
 		<content>bin/plow.swf</content>
 		<title>Plow</title>
-		<systemChrome>standard</systemChrome>
-		<transparent>false</transparent>
-		<visible>true</visible>
-		<minimizable>false</minimizable>
-		<maximizable>false</maximizable>
 		<resizable>false</resizable>
 		<width>400</width>
 		<height>496</height>
-		<x>150</x>
-		<y>150</y>
 	</initialWindow>
 	<installFolder>Plow</installFolder>
 	<programMenuFolder>Plow</programMenuFolder>

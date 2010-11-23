@@ -30,7 +30,6 @@ package nl.base42.plow.ui {
 		public function selectItem(inSelectedItem : BlueprintData) : void {
 			_blueprintData = inSelectedItem;
 			_blueprintFileManipulator = new PlowFileManipulator(inSelectedItem);
-			debug("selectItem: " + inSelectedItem);
 			removeAllElements();
 
 			var generateButton : Button = new Button();

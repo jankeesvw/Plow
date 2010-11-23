@@ -45,6 +45,9 @@ package nl.base42.plow.utils {
 				var folder : String = file.nativePath.substr(0, file.nativePath.length - file.name.length);
 				var newfile : File = new File(folder + filename);
 				file.moveTo(newfile);
+				
+				status("update folder -> " + file.nativePath);
+				
 				return newfile;
 			}
 			return file;
@@ -103,6 +106,8 @@ package nl.base42.plow.utils {
 			for each ( var replacement : BlueprintReplaceData in _rules) {
 				content = StringUtils.replace(content, replacement.replace, replacement.text);
 			}
+			
+			status("update file -> " + file.nativePath);
 
 			fileStream.open(file, FileMode.WRITE);
 			fileStream.writeUTFBytes(content);
