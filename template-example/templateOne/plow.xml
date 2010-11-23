@@ -5,5 +5,6 @@
 		<replace label="Author" replace="${author}" default="jankees [at] base42.nl" />
 		<replace label="Index.html" replace="index.html" default="project.html" />		
 		<replace label="filename" replace="filename" default="updated_filename" />				
+		<replace label="foldername" replace="foldername" default="updated_foldername" />						
 	</replaces>
 </plow>

@@ -41,7 +41,7 @@
 				var id : int = templateDataGrid.selectedItem.id;
 				var selectedItem : BlueprintData = DataManager.getInstance().getItemByID(id);
 				if (selectedItem) {
-					TweenLite.to(this, 0.2, {width:OPEN_WIDTH});
+					TweenLite.to(this, 0.4, {width:OPEN_WIDTH});
 					_form.selectItem(selectedItem);
 				} else {
 					error("selectItem: invalid item selected");

@@ -1,7 +1,7 @@
 package nl.base42.plow.ui {
 	import nl.base42.plow.data.dvo.BlueprintData;
 	import nl.base42.plow.data.dvo.BlueprintReplaceData;
-	import nl.base42.plow.utils.StringUtils;
+	import nl.base42.plow.utils.PlowFileManipulator;
 
 	import spark.components.Button;
 	import spark.components.Group;
@@ -15,8 +15,6 @@ package nl.base42.plow.ui {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
 
 	/**
 	 * @author jankees [at] base42.nl
@@ -25,12 +23,14 @@ package nl.base42.plow.ui {
 		private var _blueprintData : BlueprintData;
 		private var _outputNameField : TextInput;
 		private var _alert : Alert;
-		private var _newFolder : File;
+		private var _targetFolder : File;
 		private var _rules : Array;
+		private var _blueprintFileManipulator : PlowFileManipulator;
 
-		public function selectItem(selectedItem : BlueprintData) : void {
-			_blueprintData = selectedItem;
-			debug("selectItem: " + selectedItem);
+		public function selectItem(inSelectedItem : BlueprintData) : void {
+			_blueprintData = inSelectedItem;
+			_blueprintFileManipulator = new PlowFileManipulator(inSelectedItem);
+			debug("selectItem: " + inSelectedItem);
 			removeAllElements();
 
 			var generateButton : Button = new Button();
@@ -73,48 +73,25 @@ package nl.base42.plow.ui {
 
 		private function directorySelected(event : Event) : void {
 			var directory : File = event.target as File;
-			_newFolder = new File(directory.nativePath + File.separator + _outputNameField.text);
+			_targetFolder = new File(directory.nativePath + File.separator + _outputNameField.text);
 
 			var originalFolder : File = new File(_blueprintData.path);
 			originalFolder.addEventListener(Event.COMPLETE, copyComplete);
-			originalFolder.copyToAsync(_newFolder);
+			originalFolder.copyToAsync(_targetFolder);
 
-			_alert = Alert.show("Copying files to " + _newFolder.nativePath, "Working", Alert.NO, null, null);
+			_alert = Alert.show("Copying files to " + _targetFolder.nativePath, "Working", Alert.NO, null, null);
 			_alert.mx_internal::alertForm.removeChild(_alert.mx_internal::alertForm.mx_internal::buttons[0]);
 
-			debug("copying to : " + _newFolder.nativePath);
+			debug("copying to : " + _targetFolder.nativePath);
 		}
 
 		private function copyComplete(event : Event) : void {
 			PopUpManager.removePopUp(_alert);
-			_alert = Alert.show("Processing files..", "Working", Alert.NO, null, null);
-			_alert.mx_internal::alertForm.removeChild(_alert.mx_internal::alertForm.mx_internal::buttons[0]);
-			processFolderRecursive(_newFolder);
+
+			// process file content
+			_blueprintFileManipulator.start(_targetFolder);
 		}
 
-		private function processFolderRecursive(folder : File) : void {
-			var contents : Array = folder.getDirectoryListing();
-			for each (var file : File in contents) {
-				if (file.isDirectory) {
-					processFile(file);
-					processFolderRecursive(file);
-				} else {
-					processFile(file);
-				}
-			}
-			PopUpManager.removePopUp(_alert);
-		}
-
-		private function processFile(file : File) : void {
-			
-		}
-
-		private function processFileContents(inFile : File) : Boolean {
-			return true;
-		}
-
-		private function processFileName(inFile : File) : Boolean {
-			return true;
-		}
+	
 	}
 }
