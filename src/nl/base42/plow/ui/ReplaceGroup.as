@@ -26,7 +26,7 @@ package nl.base42.plow.ui {
 
 			var label : Label = new Label();
 			label.y = 6;
-			label.text = inBlueprintReplaceData.fieldname;
+			label.text = inBlueprintReplaceData.label;
 			addElement(label);
 		}
 

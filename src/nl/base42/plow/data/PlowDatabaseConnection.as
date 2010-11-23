@@ -22,7 +22,7 @@ package nl.base42.plow.data {
 		public function PlowDatabaseConnection() {
 			_connection = new SQLConnection();
 			_connection.addEventListener(SQLEvent.OPEN, openHandler);
-			_connection.openAsync(File.applicationDirectory.resolvePath(DATABASE_NAME));
+			_connection.openAsync(File.applicationStorageDirectory.resolvePath(DATABASE_NAME));
 		}
 
 		private function openHandler(event : SQLEvent) : void {

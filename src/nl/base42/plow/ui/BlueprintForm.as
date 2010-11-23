@@ -106,41 +106,15 @@ package nl.base42.plow.ui {
 		}
 
 		private function processFile(file : File) : void {
-			debug("processFile: " + file.nativePath + " rules: " + _rules.length);
-			var filename : String = file.name;
-			var replacement : BlueprintReplaceData;
-			var path : String ;
-			var newFileName : String;
+			
+		}
 
-			if (file.isDirectory) {
-				// process folder name
-				// FIXME: This doesn't work yet...
-//				for each ( replacement  in _rules) {
-//					filename = StringUtils.replace(filename, replacement.replace, replacement.text);
-//				}
-//				if (filename != file.name) {
-//					path = StringUtils.remove(file.nativePath, file.name);
-//					newFileName = path + filename;
-//					file.moveTo(new File(newFileName));
-//				}
-			} else {
-				var fileStream : FileStream = new FileStream();
-				fileStream.open(file, FileMode.READ);
-				var content : String = fileStream.readMultiByte(file.size, File.systemCharset);
-				for each ( replacement in _rules) {
-					content = StringUtils.replace(content, replacement.replace, replacement.text);
-					filename = StringUtils.replace(filename, replacement.replace, replacement.text);
-				}
-				fileStream.open(file, FileMode.WRITE);
-				fileStream.writeUTFBytes(content);
-				fileStream.close();
+		private function processFileContents(inFile : File) : Boolean {
+			return true;
+		}
 
-				if (filename != file.name) {
-					path = StringUtils.remove(file.nativePath, file.name);
-					newFileName = path + filename;
-					file.moveTo(new File(newFileName));
-				}
-			}
+		private function processFileName(inFile : File) : Boolean {
+			return true;
 		}
 	}
 }
