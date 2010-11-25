@@ -11,7 +11,7 @@
 	<filename>Plow</filename>
 	<copyright>Copyright 2010, Base 42</copyright>
 	<initialWindow>
-		<content>bin/plow.swf</content>
+		<content>plow.swf</content>
 		<title>Plow</title>
 		<resizable>false</resizable>
 		<width>400</width>

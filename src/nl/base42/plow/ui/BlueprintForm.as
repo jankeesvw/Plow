@@ -9,6 +9,7 @@ package nl.base42.plow.ui {
 	import spark.components.TextInput;
 
 	import mx.controls.Alert;
+	import mx.controls.Text;
 	import mx.core.mx_internal;
 	import mx.managers.PopUpManager;
 
@@ -58,6 +59,33 @@ package nl.base42.plow.ui {
 				replacementGroup.y = i * 25 + 50;
 				addElement(replacementGroup);
 			}
+
+			if (!_blueprintData.hasPlowConfigFile()) {
+				var createSampleLabel : Text = new Text();
+				createSampleLabel.x = 0;
+				createSampleLabel.y = 81;
+				createSampleLabel.width = 300;
+				createSampleLabel.text = "This folder has no plow.xml this can be used to filenames, foldernames and the content of files. If you want to create a sample xml file click the button below. You have to modify this file to your needs.";
+				addElement(createSampleLabel);
+
+				var createSampleXML : Button = new Button();
+				createSampleXML.addEventListener(MouseEvent.CLICK, handleSampleFileClick);
+				createSampleXML.label = "Create sample XML in blueprint folder";
+				createSampleXML.width = 232;
+				createSampleXML.height = 30;
+				createSampleXML.x = 34;
+				createSampleXML.y = 155;
+				addElement(createSampleXML);
+			}
+		}
+
+		private function handleSampleFileClick(event : MouseEvent) : void {
+			var samplePlowFile : File = File.applicationDirectory.resolvePath(BlueprintData.PLOW_BLUEPRINT_FILE);
+
+			var destinationFolder : File = new File(_blueprintData.path + File.separator + BlueprintData.PLOW_BLUEPRINT_FILE);
+			samplePlowFile.copyTo(destinationFolder);
+			debug("copied sample plow file to: " + destinationFolder.nativePath);
+			Alert.show("Plow created an example plow file in your folder: " + _blueprintData.path + ".  You have to modify this file to your needs!");
 		}
 
 		private function handleGenerateClick(event : MouseEvent) : void {
@@ -90,7 +118,5 @@ package nl.base42.plow.ui {
 			// process file content
 			_blueprintFileManipulator.start(_targetFolder);
 		}
-
-	
 	}
 }

@@ -26,12 +26,24 @@ package nl.base42.plow.data.dvo {
 			name = result[DATABASE_NAME_FIELD];
 			path = result[DATABASE_PATH_FIELD];
 
+			checkForName();
+			
 			return new File(path).exists;
 		}
 
 		public function parseFromFile(inDirectory : File) : void {
 			name = inDirectory.name;
 			path = inDirectory.nativePath;
+
+			checkForName();
+		}
+
+		private function checkForName() : void {
+			if (hasPlowConfigFile()) {
+				if (getXML().attribute("name").length()) {
+					name = getXML().@name;
+				}
+			}
 		}
 
 		public function toObject() : Object {
@@ -42,13 +54,16 @@ package nl.base42.plow.data.dvo {
 			// return empty array if there is no config file
 			if (!hasPlowConfigFile()) return [];
 
+			return Parser.parseList(getXML().replaces.replace, BlueprintReplaceData);
+		}
+
+		private function getXML() : XML {
 			var file : File = plowConfigFile();
 			var fileStream : FileStream = new FileStream();
 			fileStream.open(file, FileMode.READ);
 			var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
 			fileStream.close();
-
-			return Parser.parseList(xml.replaces.replace, BlueprintReplaceData);
+			return xml;
 		}
 
 		public function toString() : String {

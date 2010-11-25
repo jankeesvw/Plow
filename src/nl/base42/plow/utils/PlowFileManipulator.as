@@ -1,4 +1,6 @@
 package nl.base42.plow.utils {
+	import flash.utils.ByteArray;
+
 	import nl.base42.plow.data.dvo.BlueprintData;
 	import nl.base42.plow.data.dvo.BlueprintReplaceData;
 
@@ -45,9 +47,9 @@ package nl.base42.plow.utils {
 				var folder : String = file.nativePath.substr(0, file.nativePath.length - file.name.length);
 				var newfile : File = new File(folder + filename);
 				file.moveTo(newfile);
-				
+
 				status("update folder -> " + file.nativePath);
-				
+
 				return newfile;
 			}
 			return file;
@@ -101,16 +103,16 @@ package nl.base42.plow.utils {
 			var fileStream : FileStream = new FileStream();
 			fileStream.open(file, FileMode.READ);
 
-			var content : String = fileStream.readUTFBytes(file.size);
-
+			var b : ByteArray = new ByteArray();
+			fileStream.readBytes(b, 0, fileStream.bytesAvailable);
+			
+			var content:String = b.readUTFBytes(b.bytesAvailable);
 			for each ( var replacement : BlueprintReplaceData in _rules) {
 				content = StringUtils.replace(content, replacement.replace, replacement.text);
 			}
-			
-			status("update file -> " + file.nativePath);
 
 			fileStream.open(file, FileMode.WRITE);
-			fileStream.writeUTFBytes(content);
+			fileStream.writeBytes(b);
 			fileStream.close();
 		}
 	}
