@@ -1,3 +1,1 @@
-# What's Plow about?
-
-In the past I have been duplicating 'template' folders a lot. That's the past!
+<http://github.com/base42/plow/raw/master/design/screenshot-0-8.png>
