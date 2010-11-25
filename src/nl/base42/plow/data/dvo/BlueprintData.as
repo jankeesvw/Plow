@@ -84,7 +84,7 @@ package nl.base42.plow.data.dvo {
 			return blueprintfile.exists;
 		}
 
-		private function plowConfigFile() : File {
+		public function plowConfigFile() : File {
 			return new File(path + File.separator + PLOW_BLUEPRINT_FILE);
 		}
 	}
