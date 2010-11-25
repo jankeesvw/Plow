@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.powerflasher.fdt.ui.AirReleaseGroup">
-<listAttribute key="ASSET_DIRECTORY_LIST">
-<listEntry value="bin"/>
+<listAttribute key="ASSET_DIRECTORY_LIST"/>
+<listAttribute key="ASSET_FILE_LIST">
+<listEntry value="bin/plow.swf &gt; plow.swf"/>
+<listEntry value="bin/plow-app.xml &gt; plow-app.xml"/>
+<listEntry value="bin/icon128.png &gt; icon128.png"/>
 </listAttribute>
-<listAttribute key="ASSET_FILE_LIST"/>
 <stringAttribute key="CERTIFICATE_CHOOSEN" value="1"/>
 <stringAttribute key="CERTIFICATE_COUNTRY" value=""/>
 <booleanAttribute key="CERTIFICATE_DISABLE_TIMESTAMP" value="false"/>

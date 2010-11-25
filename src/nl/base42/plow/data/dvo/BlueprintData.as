@@ -2,6 +2,7 @@ package nl.base42.plow.data.dvo {
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+
 	import nl.base42.plow.data.PlowDatabaseConnection;
 	import nl.base42.plow.utils.ObjectTracer;
 	import nl.base42.plow.utils.parser.Parser;
@@ -26,14 +27,18 @@ package nl.base42.plow.data.dvo {
 			name = result[DATABASE_NAME_FIELD];
 			path = result[DATABASE_PATH_FIELD];
 
+			reloadXML();
+
 			checkForName();
-			
+
 			return new File(path).exists;
 		}
 
 		public function parseFromFile(inDirectory : File) : void {
 			name = inDirectory.name;
 			path = inDirectory.nativePath;
+
+			reloadXML();
 
 			checkForName();
 		}
@@ -55,14 +60,17 @@ package nl.base42.plow.data.dvo {
 		}
 
 		private function reloadXML() : XML {
-			var file : File = plowConfigFile();
-			var fileStream : FileStream = new FileStream();
-			fileStream.open(file, FileMode.READ);
-			var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
-			fileStream.close();
-			
-			_replaceFields = Parser.parseList(xml.child("replaces").child("replace"), BlueprintReplaceData);
-			
+			if (hasPlowConfigFile()) {
+				var file : File = plowConfigFile();
+				var fileStream : FileStream = new FileStream();
+				fileStream.open(file, FileMode.READ);
+				var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
+				fileStream.close();
+				_replaceFields = Parser.parseList(xml.child("replaces").child("replace"), BlueprintReplaceData);
+			} else {
+				_replaceFields = [];
+			}
+
 			return xml;
 		}
 

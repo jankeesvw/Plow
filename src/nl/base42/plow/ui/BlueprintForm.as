@@ -2,6 +2,7 @@ package nl.base42.plow.ui {
 	import nl.base42.plow.data.PlowFileManipulator;
 	import nl.base42.plow.data.dvo.BlueprintData;
 	import nl.base42.plow.data.dvo.BlueprintReplaceData;
+	import nl.base42.plow.utils.PositionDebugBehavior;
 
 	import spark.components.Button;
 	import spark.components.Group;
@@ -56,7 +57,7 @@ package nl.base42.plow.ui {
 			if (!_blueprintData.hasPlowConfigFile()) {
 				var createSampleLabel : Text = new Text();
 				createSampleLabel.x = 0;
-				createSampleLabel.y = 81;
+				createSampleLabel.y = 5;
 				createSampleLabel.width = 300;
 				createSampleLabel.text = "This folder has no plow.xml this can be used to filenames, foldernames and the content of files. If you want to create a sample xml file click the button below. You have to modify this file to your needs.";
 				addElement(createSampleLabel);
@@ -67,7 +68,7 @@ package nl.base42.plow.ui {
 				createSampleXML.width = 232;
 				createSampleXML.height = 30;
 				createSampleXML.x = 34;
-				createSampleXML.y = 155;
+				createSampleXML.y = 82;
 				addElement(createSampleXML);
 			}
 		}

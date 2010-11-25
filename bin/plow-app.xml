@@ -3,7 +3,7 @@
 	
 	<id>nl.base42.Plow</id>
 	<name>Plow</name>
-	<version>0.7</version>
+	<version>0.8</version>
 	<filename>Plow</filename>
 	<copyright>Copyright 2010, Base 42</copyright>
 	
@@ -14,6 +14,10 @@
 		<height>496</height>
 		<resizable>false</resizable>
 	</initialWindow>
+	
+	<icon>
+        <image128x128>icon128.png</image128x128> 
+    </icon>
 	
 	<installFolder>Plow</installFolder>
 	<programMenuFolder>Plow</programMenuFolder>

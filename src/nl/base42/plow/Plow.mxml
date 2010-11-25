@@ -11,6 +11,7 @@
 			import nl.base42.plow.data.dvo.BlueprintData;
 			import nl.base42.plow.ui.BlueprintForm;
 			import nl.base42.plow.ui.ColumnOptions;
+			import nl.base42.plow.ui.Robot;
 
 			import com.greensock.TweenLite;
 
@@ -32,6 +33,8 @@
 				addEventListener(Event.CLOSING, handleQuit);
 				error("init plow");
 
+				addElement(new Robot());
+				
 				templateDataGrid.addEventListener(MouseEvent.CLICK, handleMouseClickList);
 
 				DataManager.getInstance();
@@ -110,7 +113,7 @@
 	</mx:DataGrid>
 	<s:Button x="138" y="425" label="Add new blueprint" width="132"
 		height="30" click="handleClickAddTemplate(event);"/>
-	<s:Label x="28" y="27" text="Blueprints"/>
-	<s:Label x="418" y="27" text="Settings"/>
+	<s:Label x="28" y="17" text="Blueprints" fontFamily="Arial" fontSize="23" fontWeight="bold"/>
+	<s:Label x="418" y="17" text="Settings" fontFamily="Arial" fontSize="23" fontWeight="bold"/>
 	
 </s:WindowedApplication>
