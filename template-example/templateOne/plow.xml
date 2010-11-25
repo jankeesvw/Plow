@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plow>
+<plow name="Project name">
 	<replaces>
-		<replace label="Project Name" replace="${project_name}" default="Project Name" />
-		<replace label="Author" replace="${author}" default="jankees [at] base42.nl" />
-		<replace label="Index.html" replace="index.html" default="project.html" />		
-		<replace label="filename" replace="filename" default="updated_filename" />				
-		<replace label="foldername" replace="foldername" default="updated_foldername" />						
+		<replace label="${project_name}" replace="${project_name}" default="Projectname" />
+		<replace label="${author}" replace="${author}" default="Jankees" />
 	</replaces>
 </plow>

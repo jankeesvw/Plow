@@ -2,15 +2,11 @@ package nl.base42.plow.ui {
 	import nl.base42.plow.data.dvo.BlueprintData;
 	import nl.base42.plow.data.dvo.BlueprintReplaceData;
 	import nl.base42.plow.utils.PlowFileManipulator;
-	import nl.base42.plow.utils.PositionDebugBehavior;
 
 	import spark.components.Button;
 	import spark.components.Group;
 	import spark.components.Label;
 	import spark.components.TextInput;
-
-	import com.adobe.air.filesystem.FileMonitor;
-	import com.adobe.air.filesystem.events.FileMonitorEvent;
 
 	import mx.controls.Alert;
 	import mx.controls.Text;
@@ -31,7 +27,6 @@ package nl.base42.plow.ui {
 		private var _targetFolder : File;
 		private var _rules : Array;
 		private var _blueprintFileManipulator : PlowFileManipulator;
-		private var _filemonitor : FileMonitor;
 
 		public function selectItem(inSelectedItem : BlueprintData) : void {
 			_blueprintData = inSelectedItem;
@@ -86,21 +81,11 @@ package nl.base42.plow.ui {
 				createSampleXML.x = 34;
 				createSampleXML.y = 155;
 				addElement(createSampleXML);
-			} else {
-				var openXMLButton : Button = new Button();
-				openXMLButton.addEventListener(MouseEvent.CLICK, openPlowFile);
-				openXMLButton.label = "Open plow.xml file";
-				openXMLButton.width = 232;
-				openXMLButton.height = 30;
-				openXMLButton.x = 34;
-				openXMLButton.y = replacementGroup.y + 50;
-				new PositionDebugBehavior(openXMLButton, "openXMLButton");
-				addElement(openXMLButton);
 			}
 		}
 
-		private function openPlowFile(event : MouseEvent) : void {
-			_blueprintData.plowConfigFile().openWithDefaultApplication();
+		public function clear() : void {
+			removeAllElements();
 		}
 
 		private function handleSampleFileClick(event : MouseEvent) : void {
@@ -108,6 +93,12 @@ package nl.base42.plow.ui {
 
 			var destinationFolder : File = new File(_blueprintData.path + File.separator + BlueprintData.PLOW_BLUEPRINT_FILE);
 			samplePlowFile.copyTo(destinationFolder);
+
+			destinationFolder.openWithDefaultApplication();
+
+			Alert.show("Plow created an example plow file in your folder: " + _blueprintData.path + ".  You have to modify this file to your needs!");
+
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 
 		private function handleGenerateClick(event : MouseEvent) : void {

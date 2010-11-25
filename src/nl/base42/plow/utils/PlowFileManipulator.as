@@ -23,6 +23,8 @@ package nl.base42.plow.utils {
 			processFilenamesRecursive(targetFolder);
 			processFoldernamesRecursive(targetFolder);
 			removePlowFile(targetFolder);
+
+			targetFolder.openWithDefaultApplication();
 		}
 
 		private function processFoldernamesRecursive(targetFolder : File) : void {
@@ -110,9 +112,15 @@ package nl.base42.plow.utils {
 			for each ( var replacement : BlueprintReplaceData in _rules) {
 				content = StringUtils.replace(content, replacement.replace, replacement.text);
 			}
-
+			
+			b = new ByteArray();
+			b.writeUTFBytes(content);
+			
+			fileStream.close();
+			
+			fileStream = new FileStream();
 			fileStream.open(file, FileMode.WRITE);
-			fileStream.writeBytes(b);
+			fileStream.writeBytes(b,0,b.bytesAvailable);
 			fileStream.close();
 		}
 	}
