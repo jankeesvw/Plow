@@ -4,7 +4,6 @@
 	applicationComplete="initApplication()">
 	<fx:Script>
 		<![CDATA[
-			import flash.desktop.NativeApplication;
 			import logmeister.LogMeister;
 			import logmeister.connectors.TrazzleConnector;
 
@@ -109,7 +108,7 @@
 				width="80" resizable="false" sortable="false"/>
 		</mx:columns>
 	</mx:DataGrid>
-	<s:Button x="138" y="425" label="Select new blueprint" width="132"
+	<s:Button x="138" y="425" label="Add new blueprint" width="132"
 		height="30" click="handleClickAddTemplate(event);"/>
 	<s:Label x="28" y="27" text="Blueprints"/>
 	<s:Label x="418" y="27" text="Settings"/>

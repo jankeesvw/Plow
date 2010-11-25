@@ -19,6 +19,7 @@ package nl.base42.plow.data.dvo {
 		public var name : String;
 		public var path : String;
 		public var id : uint;
+		private var _replaceFields : Array;
 
 		public function parseFromDatabase(result : Object) : Boolean {
 			id = result[DATABASE_ID_FIELD];
@@ -39,8 +40,8 @@ package nl.base42.plow.data.dvo {
 
 		private function checkForName() : void {
 			if (hasPlowConfigFile()) {
-				if (getXML().attribute("name").length()) {
-					name = getXML().@name;
+				if (reloadXML().attribute("name").length()) {
+					name = reloadXML().@name;
 				}
 			}
 		}
@@ -50,18 +51,18 @@ package nl.base42.plow.data.dvo {
 		}
 
 		public function getPlowReplaceFields() : Array {
-			// return empty array if there is no config file
-			if (!hasPlowConfigFile()) return [];
-
-			return Parser.parseList(getXML().child("replaces").child("replace"), BlueprintReplaceData);
+			return _replaceFields;
 		}
 
-		private function getXML() : XML {
+		private function reloadXML() : XML {
 			var file : File = plowConfigFile();
 			var fileStream : FileStream = new FileStream();
 			fileStream.open(file, FileMode.READ);
 			var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
 			fileStream.close();
+			
+			_replaceFields = Parser.parseList(xml.child("replaces").child("replace"), BlueprintReplaceData);
+			
 			return xml;
 		}
 
