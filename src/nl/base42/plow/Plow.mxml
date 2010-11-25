@@ -4,6 +4,7 @@
 	applicationComplete="initApplication()">
 	<fx:Script>
 		<![CDATA[
+			import flash.desktop.NativeApplication;
 			import logmeister.LogMeister;
 			import logmeister.connectors.TrazzleConnector;
 
@@ -21,13 +22,13 @@
 			import flash.events.Event;
 			import flash.events.MouseEvent;
 
-			private static const CLOSE_WIDTH : uint = 400;
 			private static const OPEN_WIDTH : uint = 755;
 			//
 			private var _form : BlueprintForm;
 			private var _logwindow : LogWindow;
 
 			private function initApplication() : void {
+				
 				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
 				addEventListener(Event.CLOSING, handleQuit);
 				error("init plow");

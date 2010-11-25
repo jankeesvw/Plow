@@ -1,4 +1,4 @@
-package nl.base42.plow.utils {
+package nl.base42.plow.utils.parser {
 
 	public interface IParsable {
 		/**

@@ -1,9 +1,7 @@
-package nl.base42.plow.utils {
-	import mx.utils.StringUtil;
-
-	import logmeister.connectors.ILogMeisterConnector;
-
+package nl.base42.plow.utils.logging {
 	import flash.events.EventDispatcher;
+	import logmeister.connectors.ILogMeisterConnector;
+	import nl.base42.plow.utils.StringUtils;
 
 	/**
 	 * @author jankees [at] base42.nl

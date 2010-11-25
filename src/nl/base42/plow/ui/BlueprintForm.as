@@ -1,12 +1,10 @@
 package nl.base42.plow.ui {
+	import nl.base42.plow.data.PlowFileManipulator;
 	import nl.base42.plow.data.dvo.BlueprintData;
 	import nl.base42.plow.data.dvo.BlueprintReplaceData;
-	import nl.base42.plow.utils.PlowFileManipulator;
 
 	import spark.components.Button;
 	import spark.components.Group;
-	import spark.components.Label;
-	import spark.components.TextInput;
 
 	import mx.controls.Alert;
 	import mx.controls.Text;
@@ -22,7 +20,6 @@ package nl.base42.plow.ui {
 	 */
 	public class BlueprintForm extends Group {
 		private var _blueprintData : BlueprintData;
-		private var _outputNameField : TextInput;
 		private var _alert : Alert;
 		private var _targetFolder : File;
 		private var _rules : Array;
@@ -47,21 +44,12 @@ package nl.base42.plow.ui {
 			generateButton.y = 378;
 			addElement(generateButton);
 
-			_outputNameField = new TextInput();
-			_outputNameField.x = 150;
-			addElement(_outputNameField);
-
-			var label : Label = new Label();
-			label.y = 6;
-			label.text = "Output folder name";
-			addElement(label);
-
 			_rules = _blueprintData.getPlowReplaceFields();
 			var leni : uint = _rules.length;
 			for (var i : uint = 0; i < leni; i++) {
 				var replacement : BlueprintReplaceData = _rules[i];
 				var replacementGroup : ReplaceGroup = new ReplaceGroup(replacement);
-				replacementGroup.y = i * 25 + 50;
+				replacementGroup.y = i * 25;
 				addElement(replacementGroup);
 			}
 
@@ -102,18 +90,14 @@ package nl.base42.plow.ui {
 		}
 
 		private function handleGenerateClick(event : MouseEvent) : void {
-			if (_outputNameField.text == "") {
-				Alert.show("Please give a folder output name", "Oops");
-				return;
-			}
 			var directory : File = File.desktopDirectory;
-			directory.browseForDirectory("Select target directory");
+			directory.browseForSave("Select target directory");
 			directory.addEventListener(Event.SELECT, directorySelected);
 		}
 
 		private function directorySelected(event : Event) : void {
 			var directory : File = event.target as File;
-			_targetFolder = new File(directory.nativePath + File.separator + _outputNameField.text);
+			_targetFolder = new File(directory.nativePath);
 
 			var originalFolder : File = new File(_blueprintData.path);
 			originalFolder.addEventListener(Event.COMPLETE, copyComplete);

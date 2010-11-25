@@ -3,5 +3,6 @@
 	<replaces>
 		<replace label="${project_name}" replace="${project_name}" default="Projectname" />
 		<replace label="${author}" replace="${author}" default="Jankees" />
+		<replace label="TestFolderName" replace="TestFolderName" default="TestFolderName2" />
 	</replaces>
 </plow>

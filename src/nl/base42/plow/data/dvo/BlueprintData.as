@@ -1,11 +1,10 @@
 package nl.base42.plow.data.dvo {
-	import nl.base42.plow.data.PlowDatabaseConnection;
-	import nl.base42.plow.utils.ObjectTracer;
-	import nl.base42.plow.utils.Parser;
-
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import nl.base42.plow.data.PlowDatabaseConnection;
+	import nl.base42.plow.utils.ObjectTracer;
+	import nl.base42.plow.utils.parser.Parser;
 
 	/**
 	 * @author jankees [at] base42.nl
@@ -54,7 +53,7 @@ package nl.base42.plow.data.dvo {
 			// return empty array if there is no config file
 			if (!hasPlowConfigFile()) return [];
 
-			return Parser.parseList(getXML().replaces.replace, BlueprintReplaceData);
+			return Parser.parseList(getXML().child("replaces").child("replace"), BlueprintReplaceData);
 		}
 
 		private function getXML() : XML {

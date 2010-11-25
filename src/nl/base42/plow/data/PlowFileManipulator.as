@@ -1,21 +1,20 @@
-package nl.base42.plow.utils {
-	import flash.utils.ByteArray;
-
-	import nl.base42.plow.data.dvo.BlueprintData;
-	import nl.base42.plow.data.dvo.BlueprintReplaceData;
-
+package nl.base42.plow.data {
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.utils.ByteArray;
+	import nl.base42.plow.data.dvo.BlueprintData;
+	import nl.base42.plow.data.dvo.BlueprintReplaceData;
+	import nl.base42.plow.utils.StringUtils;
 
 	/**
 	 * @author jankees [at] base42.nl
 	 */
 	public class PlowFileManipulator {
-		private var _rules : Array;
+		private var _replaceFields : Array;
 
 		public function PlowFileManipulator(inSelectedItem : BlueprintData) {
-			_rules = inSelectedItem.getPlowReplaceFields();
+			_replaceFields = inSelectedItem.getPlowReplaceFields();
 		}
 
 		public function start(targetFolder : File) : void {
@@ -24,6 +23,7 @@ package nl.base42.plow.utils {
 			processFoldernamesRecursive(targetFolder);
 			removePlowFile(targetFolder);
 
+			// open folder
 			targetFolder.openWithDefaultApplication();
 		}
 
@@ -40,7 +40,7 @@ package nl.base42.plow.utils {
 		private function updateFolderName(file : File) : File {
 			var filename : String = file.name;
 
-			for each ( var replacement : BlueprintReplaceData in _rules) {
+			for each ( var replacement : BlueprintReplaceData in _replaceFields) {
 				filename = StringUtils.replace(filename, replacement.replace, replacement.text);
 			}
 
@@ -49,9 +49,7 @@ package nl.base42.plow.utils {
 				var folder : String = file.nativePath.substr(0, file.nativePath.length - file.name.length);
 				var newfile : File = new File(folder + filename);
 				file.moveTo(newfile);
-
-				status("update folder -> " + file.nativePath);
-
+				debug("updateFolderName: update folder name");
 				return newfile;
 			}
 			return file;
@@ -90,7 +88,7 @@ package nl.base42.plow.utils {
 		private function processFilename(file : File) : void {
 			var filename : String = file.name;
 
-			for each ( var replacement : BlueprintReplaceData in _rules) {
+			for each ( var replacement : BlueprintReplaceData in _replaceFields) {
 				filename = StringUtils.replace(filename, replacement.replace, replacement.text);
 			}
 
@@ -107,20 +105,20 @@ package nl.base42.plow.utils {
 
 			var b : ByteArray = new ByteArray();
 			fileStream.readBytes(b, 0, fileStream.bytesAvailable);
-			
-			var content:String = b.readUTFBytes(b.bytesAvailable);
-			for each ( var replacement : BlueprintReplaceData in _rules) {
+
+			var content : String = b.readUTFBytes(b.bytesAvailable);
+			for each ( var replacement : BlueprintReplaceData in _replaceFields) {
 				content = StringUtils.replace(content, replacement.replace, replacement.text);
 			}
-			
+
 			b = new ByteArray();
 			b.writeUTFBytes(content);
-			
+
 			fileStream.close();
-			
+
 			fileStream = new FileStream();
 			fileStream.open(file, FileMode.WRITE);
-			fileStream.writeBytes(b,0,b.bytesAvailable);
+			fileStream.writeBytes(b, 0, b.bytesAvailable);
 			fileStream.close();
 		}
 	}

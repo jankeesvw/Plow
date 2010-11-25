@@ -1,5 +1,5 @@
 package nl.base42.plow.data.dvo {
-	import nl.base42.plow.utils.IParsable;
+	import nl.base42.plow.utils.parser.IParsable;
 
 	/**
 	 * @author jankees [at] base42.nl
