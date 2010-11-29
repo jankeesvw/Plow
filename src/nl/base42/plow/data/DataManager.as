@@ -6,6 +6,8 @@ package nl.base42.plow.data {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
 
 	/**
 	 * @author jankees [at] base42.nl
@@ -14,6 +16,7 @@ package nl.base42.plow.data {
 		private static const INSTANCE : DataManager = new DataManager();
 		private var _database : PlowDatabaseConnection;
 		private var _blueprints : Array;
+		private var _extensions : Array;
 
 		public static function getInstance() : DataManager {
 			return INSTANCE;
@@ -24,6 +27,21 @@ package nl.base42.plow.data {
 
 			_database = new PlowDatabaseConnection();
 			_database.addEventListener(Event.CHANGE, handleDatabaseUpdate);
+
+			loadExtensions();
+		}
+
+		private function loadExtensions() : void {
+			var fileStream : FileStream = new FileStream();
+			var file : File = new File(File.applicationDirectory.nativePath + File.separator + "extensions.xml");
+			fileStream.open(file, FileMode.READ);
+			var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
+			debug("loadExtensions: xml: " + (xml));
+			fileStream.close();
+			_extensions = [];
+			for each (var ext : String in xml.child("extensions").child("extension")) {
+				_extensions.push(ext);
+			}
 		}
 
 		private function handleDatabaseUpdate(event : Event) : void {
@@ -58,6 +76,15 @@ package nl.base42.plow.data {
 					return blueprint;
 			}
 			return null;
+		}
+
+		public function isValidExtension(inExtension : String) : Boolean {
+			if (!inExtension) return false;
+			
+			for each (var extension : String in _extensions) {
+				if (extension.toUpperCase() == inExtension.toUpperCase()) return true;
+			}
+			return false;
 		}
 
 		public function removeItemByID(id : int) : void {

@@ -1,20 +1,23 @@
 package nl.base42.plow.data {
+	import nl.base42.plow.data.dvo.BlueprintData;
+	import nl.base42.plow.data.dvo.BlueprintReplaceData;
+	import nl.base42.plow.utils.StringUtils;
+
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.utils.ByteArray;
-	import nl.base42.plow.data.dvo.BlueprintData;
-	import nl.base42.plow.data.dvo.BlueprintReplaceData;
-	import nl.base42.plow.utils.StringUtils;
 
 	/**
 	 * @author jankees [at] base42.nl
 	 */
 	public class PlowFileManipulator {
 		private var _replaceFields : Array;
+		private var _dm : DataManager;
 
 		public function PlowFileManipulator(inSelectedItem : BlueprintData) {
 			_replaceFields = inSelectedItem.getPlowReplaceFields();
+			_dm = DataManager.getInstance();
 		}
 
 		public function start(targetFolder : File) : void {
@@ -100,26 +103,30 @@ package nl.base42.plow.data {
 		}
 
 		private function processFileContents(file : File) : void {
-			var fileStream : FileStream = new FileStream();
-			fileStream.open(file, FileMode.READ);
+			if (_dm.isValidExtension(file.extension)) {
+				var fileStream : FileStream = new FileStream();
+				fileStream.open(file, FileMode.READ);
+				
+				var b : ByteArray = new ByteArray();
+				fileStream.readBytes(b, 0, fileStream.bytesAvailable);
 
-			var b : ByteArray = new ByteArray();
-			fileStream.readBytes(b, 0, fileStream.bytesAvailable);
+				var content : String = b.readUTFBytes(b.length);
+				for each ( var replacement : BlueprintReplaceData in _replaceFields) {
+					content = StringUtils.replace(content, replacement.replace, replacement.text);
+				}
 
-			var content : String = b.readUTFBytes(b.bytesAvailable);
-			for each ( var replacement : BlueprintReplaceData in _replaceFields) {
-				content = StringUtils.replace(content, replacement.replace, replacement.text);
+				b = new ByteArray();
+				b.writeUTFBytes(content);
+
+				fileStream.close();
+
+				fileStream = new FileStream();
+				fileStream.open(file, FileMode.WRITE);
+				fileStream.writeBytes(b, 0, b.bytesAvailable);
+				fileStream.close();
+			} else {
+				status("processFileContents; don't process this extension: " + file.extension);
 			}
-
-			b = new ByteArray();
-			b.writeUTFBytes(content);
-
-			fileStream.close();
-
-			fileStream = new FileStream();
-			fileStream.open(file, FileMode.WRITE);
-			fileStream.writeBytes(b, 0, b.bytesAvailable);
-			fileStream.close();
 		}
 	}
 }

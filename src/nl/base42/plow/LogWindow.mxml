@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- http://airexamples.com/2010/03/12/opening-a-new-window-in-adobe-air/ -->
 <mx:Window name="LogWindow" xmlns:mx="http://www.adobe.com/2006/mxml"
-	layout="absolute" width="800" height="400" initialize="handleActivate()">
+	layout="absolute" width="800" height="400" initialize="handleActivate()" backgroundColor="0">
 	<mx:Script>
 		<![CDATA[
 			import logmeister.LogMeister;
