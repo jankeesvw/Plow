@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plow>
+	<extensions>
+		<extension>txt</extension>
+		<extension>as</extension>
+		<extension>rtf</extension>
+		<extension>html</extension>
+		<extension>m</extension>
+		<extension>h</extension>
+		<extension>pch</extension>
+		<extension>plist</extension>
+		<extension>css</extension>
+		<extension>properties</extension>
+		<extension>xml</extension>
+		<extension>prefs</extension>
+		<extension>js</extension>
+		<extension>xfl</extension>
+		<extension>launch</extension>
+		<extension>markdown</extension>
+		<extension>classpath</extension>
+		<extension>project</extension>
+	</extensions>
+</plow>

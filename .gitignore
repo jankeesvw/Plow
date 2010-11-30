@@ -1,3 +1,5 @@
 bin/*
 !bin/plow.air
 !bin/plow-app.xml
+!bin/*.png
+!bin/*.xml

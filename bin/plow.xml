@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plow name="Project name">
+	<replaces>
+		<replace label="Example replacement" replace="LorumIpsum" default="Quam Vestibulum Pharetra Justo Cras" />
+	</replaces>
+</plow>
