@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/2.0" minimumPatchLevel="0">
-	
+<application xmlns="http://ns.adobe.com/air/application/2.0"
+	minimumPatchLevel="0">
+
 	<id>nl.base42.Plow</id>
 	<name>Plow</name>
-	<version>0.9b</version>
+	<version>0.9c</version>
 	<filename>Plow</filename>
 	<copyright>Copyright 2010, Base 42</copyright>
-	
+
 	<initialWindow>
 		<content>plow.swf</content>
 		<title>Plow</title>
 		<width>400</width>
 		<height>496</height>
+		<minimizable>true</minimizable>
+		<maximizable>false</maximizable>
 		<resizable>false</resizable>
 	</initialWindow>
-	
+
 	<icon>
-        <image128x128>icon128.png</image128x128> 
-    </icon>
-	
+		<image128x128>icon128.png</image128x128>
+	</icon>
+
 	<installFolder>Plow</installFolder>
 	<programMenuFolder>Plow</programMenuFolder>
 	<customUpdateUI>false</customUpdateUI>
 	<allowBrowserInvocation>false</allowBrowserInvocation>
-	
+
 </application>

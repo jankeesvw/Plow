@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<update xmlns="http://ns.adobe.com/air/framework/update/description/1.0">
+<version>0.9c</version>
+<url>http://projects.base42.nl/plow/plow.air</url>
+<description><![CDATA[
+Changed the resize behavior
+]]></description>
+</update>
