@@ -34,8 +34,8 @@
 
 			private function checkForUpdate() : void {
 				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
-				
-				debug("start plow");
+
+				debug("Start plow");
 
 				var appXML : XML = NativeApplication.nativeApplication.applicationDescriptor;
 				var ns : Namespace = appXML.namespace();
@@ -48,13 +48,12 @@
 				_appUpdater.addEventListener(UpdateEvent.INITIALIZED, onUpdate);
 				_appUpdater.addEventListener(ErrorEvent.ERROR, onError);
 				_appUpdater.initialize();
+
+				initApplication();
 			}
 
 			private function onUpdate(event : UpdateEvent) : void {
-				notice("onUpdate: " + event);
-				 _appUpdater.checkNow();
-				 
-				 initApplication();
+				_appUpdater.checkNow();
 			}
 
 			private function onError(event : ErrorEvent) : void {
