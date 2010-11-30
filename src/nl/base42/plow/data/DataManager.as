@@ -1,13 +1,11 @@
 package nl.base42.plow.data {
-	import nl.base42.plow.data.dvo.BlueprintData;
-
-	import mx.collections.ArrayCollection;
-
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import mx.collections.ArrayCollection;
+	import nl.base42.plow.data.dto.BlueprintData;
 
 	/**
 	 * @author jankees [at] base42.nl
@@ -36,7 +34,6 @@ package nl.base42.plow.data {
 			var file : File = new File(File.applicationDirectory.nativePath + File.separator + "extensions.xml");
 			fileStream.open(file, FileMode.READ);
 			var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
-			debug("loadExtensions: xml: " + (xml));
 			fileStream.close();
 			_extensions = [];
 			for each (var ext : String in xml.child("extensions").child("extension")) {

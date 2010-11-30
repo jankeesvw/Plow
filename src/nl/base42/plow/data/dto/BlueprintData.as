@@ -1,4 +1,4 @@
-package nl.base42.plow.data.dvo {
+package nl.base42.plow.data.dto {
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;

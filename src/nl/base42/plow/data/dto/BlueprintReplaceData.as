@@ -1,4 +1,4 @@
-package nl.base42.plow.data.dvo {
+package nl.base42.plow.data.dto {
 	import nl.base42.plow.utils.parser.IParsable;
 
 	/**

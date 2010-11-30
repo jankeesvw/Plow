@@ -1,11 +1,9 @@
 package nl.base42.plow.ui {
-	import spark.events.TextOperationEvent;
-
-	import nl.base42.plow.data.dvo.BlueprintReplaceData;
-
+	import nl.base42.plow.data.dto.BlueprintReplaceData;
 	import spark.components.Group;
 	import spark.components.Label;
 	import spark.components.TextInput;
+	import spark.events.TextOperationEvent;
 
 	/**
 	 * @author jankees [at] base42.nl

@@ -1,12 +1,11 @@
 package nl.base42.plow.data {
-	import nl.base42.plow.data.dvo.BlueprintData;
-
 	import flash.data.SQLConnection;
 	import flash.data.SQLStatement;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.SQLEvent;
 	import flash.filesystem.File;
+	import nl.base42.plow.data.dto.BlueprintData;
 
 	/**
 	 * @author jankees [at] base42.nl

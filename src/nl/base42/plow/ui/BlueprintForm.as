@@ -1,20 +1,17 @@
 package nl.base42.plow.ui {
-	import nl.base42.plow.data.PlowFileManipulator;
-	import nl.base42.plow.data.dvo.BlueprintData;
-	import nl.base42.plow.data.dvo.BlueprintReplaceData;
-	import nl.base42.plow.utils.PositionDebugBehavior;
-
-	import spark.components.Button;
-	import spark.components.Group;
-
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.filesystem.File;
 	import mx.controls.Alert;
 	import mx.controls.Text;
 	import mx.core.mx_internal;
 	import mx.managers.PopUpManager;
-
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.filesystem.File;
+	import nl.base42.plow.data.PlowFileManipulator;
+	import nl.base42.plow.data.dto.BlueprintData;
+	import nl.base42.plow.data.dto.BlueprintReplaceData;
+	import nl.base42.plow.utils.PositionDebugBehavior;
+	import spark.components.Button;
+	import spark.components.Group;
 
 	/**
 	 * @author jankees [at] base42.nl

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
 	xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="496"
-	applicationComplete="initApplication()">
+	applicationComplete="checkForUpdate()">
 	<fx:Script>
 		<![CDATA[
+			import air.update.ApplicationUpdaterUI;
+			import air.update.events.UpdateEvent;
+
 			import logmeister.LogMeister;
 			import logmeister.connectors.TrazzleConnector;
 
 			import nl.base42.plow.data.DataManager;
-			import nl.base42.plow.data.dvo.BlueprintData;
+			import nl.base42.plow.data.dto.BlueprintData;
 			import nl.base42.plow.ui.BlueprintForm;
 			import nl.base42.plow.ui.ColumnOptions;
 			import nl.base42.plow.ui.Robot;
@@ -17,6 +20,7 @@
 
 			import mx.collections.ArrayCollection;
 
+			import flash.desktop.NativeApplication;
 			import flash.display.NativeMenu;
 			import flash.display.NativeMenuItem;
 			import flash.events.Event;
@@ -26,15 +30,42 @@
 			//
 			private var _form : BlueprintForm;
 			private var _logwindow : LogWindow;
+			private var _appUpdater : ApplicationUpdaterUI;
+
+			private function checkForUpdate() : void {
+				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
+				
+				debug("start plow");
+
+				var appXML : XML = NativeApplication.nativeApplication.applicationDescriptor;
+				var ns : Namespace = appXML.namespace();
+
+				debug("Current Plow version is " + appXML.ns::version);
+
+				_appUpdater = new ApplicationUpdaterUI();
+				_appUpdater.updateURL = "http://projects.base42.nl/plow/version.xml";
+				_appUpdater.isCheckForUpdateVisible = false;
+				_appUpdater.addEventListener(UpdateEvent.INITIALIZED, onUpdate);
+				_appUpdater.addEventListener(ErrorEvent.ERROR, onError);
+				_appUpdater.initialize();
+			}
+
+			private function onUpdate(event : UpdateEvent) : void {
+				notice("onUpdate: " + event);
+				 _appUpdater.checkNow();
+				 
+				 initApplication();
+			}
+
+			private function onError(event : ErrorEvent) : void {
+				error("onError: " + event.text);
+			}
 
 			private function initApplication() : void {
-				
-				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
 				addEventListener(Event.CLOSING, handleQuit);
-				error("init plow");
 
 				addElement(new Robot());
-				
+
 				templateDataGrid.addEventListener(MouseEvent.CLICK, handleMouseClickList);
 
 				DataManager.getInstance();
@@ -45,7 +76,7 @@
 				_form.x = 417;
 				_form.y = 47;
 				addElement(_form);
-				
+
 				_logwindow = new LogWindow();
 
 				var mainmenu : NativeMenu = nativeApplication.menu;
@@ -65,8 +96,8 @@
 			}
 
 			private function handleMouseClickList(event : MouseEvent) : void {
-				if(!templateDataGrid.selectedItem) return;
-				
+				if (!templateDataGrid.selectedItem) return;
+
 				var id : int = templateDataGrid.selectedItem.id;
 
 				if (event.target is Button) {
@@ -113,7 +144,9 @@
 	</mx:DataGrid>
 	<s:Button x="138" y="425" label="Add new blueprint" width="132"
 		height="30" click="handleClickAddTemplate(event);"/>
-	<s:Label x="28" y="17" text="Blueprints" fontFamily="Arial" fontSize="23" fontWeight="bold"/>
-	<s:Label x="418" y="17" text="Settings" fontFamily="Arial" fontSize="23" fontWeight="bold"/>
-	
+	<s:Label x="28" y="17" text="Blueprints" fontFamily="Arial"
+		fontSize="23" fontWeight="bold"/>
+	<s:Label x="418" y="17" text="Settings" fontFamily="Arial"
+		fontSize="23" fontWeight="bold"/>
+
 </s:WindowedApplication>

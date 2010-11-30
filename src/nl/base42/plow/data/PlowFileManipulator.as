@@ -1,12 +1,11 @@
 package nl.base42.plow.data {
-	import nl.base42.plow.data.dvo.BlueprintData;
-	import nl.base42.plow.data.dvo.BlueprintReplaceData;
-	import nl.base42.plow.utils.StringUtils;
-
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.utils.ByteArray;
+	import nl.base42.plow.data.dto.BlueprintData;
+	import nl.base42.plow.data.dto.BlueprintReplaceData;
+	import nl.base42.plow.utils.StringUtils;
 
 	/**
 	 * @author jankees [at] base42.nl
