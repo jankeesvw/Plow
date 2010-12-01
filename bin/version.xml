@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0">
-<version>1.0 alpha</version>
+<version>1.0.1</version>
 <url>http://projects.base42.nl/plow/plow.air</url>
 <description><![CDATA[
+Version 1.0.1
+- Added google analytics to monitor problems
+
 Version 1.0 alpha
 - Create sample plow.xml updated (didn't work in release version)
 

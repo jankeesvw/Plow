@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- http://airexamples.com/2010/03/12/opening-a-new-window-in-adobe-air/ -->
 <mx:Window name="LogWindow" xmlns:mx="http://www.adobe.com/2006/mxml"
-	layout="absolute" width="800" height="400" initialize="handleActivate()" backgroundColor="0">
+	layout="absolute" width="800" height="400" initialize="handleActivate()"
+	backgroundColor="0">
 	<mx:Script>
 		<![CDATA[
 			import logmeister.LogMeister;
+
+			import nl.base42.plow.data.Analytics;
 			import nl.base42.plow.utils.logging.HTMLLogger;
 			import nl.base42.plow.utils.logging.HTMLLoggerEvent;
 
 			private function handleActivate() : void {
+				Analytics.getInstance().track("/logger/open/");
+
 				var logger : HTMLLogger = new HTMLLogger();
 				logger.addEventListener(HTMLLoggerEvent.SEND, handleLog);
 				LogMeister.addLogger(logger);
@@ -20,7 +25,9 @@
 			}
 		]]>
 	</mx:Script>
- 
-   <mx:HTML left="5" top="2" horizontalCenter="-3" right="10" verticalCenter="-4" bottom="10" id="log" fontFamily="Courier New" fontSize="6" />
- 
+
+	<mx:HTML left="5" top="2" horizontalCenter="-3" right="10"
+		verticalCenter="-4" bottom="10" id="log" fontFamily="Courier New"
+		fontSize="6"/>
+
 </mx:Window>

@@ -20,10 +20,14 @@ package nl.base42.plow.data {
 		}
 
 		public function start(targetFolder : File) : void {
+			Analytics.getInstance().track("/generate/manipulation/start");
+			
 			processFileContentRecursive(targetFolder);
 			processFilenamesRecursive(targetFolder);
 			processFoldernamesRecursive(targetFolder);
 			removePlowFile(targetFolder);
+
+			Analytics.getInstance().track("/generate/manipulation/done");
 
 			// open folder
 			targetFolder.openWithDefaultApplication();

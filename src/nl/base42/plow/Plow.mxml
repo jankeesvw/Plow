@@ -10,6 +10,7 @@
 			import logmeister.LogMeister;
 			import logmeister.connectors.TrazzleConnector;
 
+			import nl.base42.plow.data.Analytics;
 			import nl.base42.plow.data.DataManager;
 			import nl.base42.plow.data.dto.BlueprintData;
 			import nl.base42.plow.ui.BlueprintForm;
@@ -37,12 +38,14 @@
 
 				loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtErrorHandler);
 
-				debug("Start plow");
-
 				var appXML : XML = NativeApplication.nativeApplication.applicationDescriptor;
 				var ns : Namespace = appXML.namespace();
 
-				debug("Current Plow version is " + appXML.ns::version);
+				Analytics.getInstance().start(stage, appXML.ns::version);
+
+				debug("Start Plow in version: " + appXML.ns::version);
+
+				Analytics.getInstance().track("/start/");
 
 				_appUpdater = new ApplicationUpdaterUI();
 				_appUpdater.updateURL = "http://projects.base42.nl/plow/version.xml";
@@ -61,6 +64,7 @@
 				} else if (event.error is ErrorEvent) {
 					message = ErrorEvent(event.error).text;
 				}
+				Analytics.getInstance().track("/error/uncaught/" + message);
 				error("uncaughtErrorHandler: " + message);
 			}
 
@@ -70,6 +74,7 @@
 
 			private function onError(event : ErrorEvent) : void {
 				error("onError: " + event.text);
+				Analytics.getInstance().track("/error/update/" + event.text);
 			}
 
 			private function initApplication() : void {

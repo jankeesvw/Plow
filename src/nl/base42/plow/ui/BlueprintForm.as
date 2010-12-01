@@ -1,4 +1,5 @@
 package nl.base42.plow.ui {
+	import nl.base42.plow.data.Analytics;
 	import nl.base42.plow.data.PlowFileManipulator;
 	import nl.base42.plow.data.dto.BlueprintData;
 	import nl.base42.plow.data.dto.BlueprintReplaceData;
@@ -86,12 +87,17 @@ package nl.base42.plow.ui {
 
 			Alert.show("Plow created an example plow file in your folder: " + _blueprintData.path + ".  You have to modify this file to your needs!");
 
+			Analytics.getInstance().track("/createSampleXML/");
+
 			dispatchEvent(new Event(Event.CHANGE));
 		}
 
 		private function handleGenerateClick(event : MouseEvent) : void {
 			var directory : File = File.desktopDirectory;
 			directory.browseForSave("Select target directory");
+			
+			Analytics.getInstance().track("/generate/selectfolder");
+			
 			directory.addEventListener(Event.SELECT, directorySelected);
 		}
 
@@ -106,12 +112,14 @@ package nl.base42.plow.ui {
 			_alert = Alert.show("Copying files to " + _targetFolder.nativePath, "Working", Alert.NO, null, null);
 			_alert.mx_internal::alertForm.removeChild(_alert.mx_internal::alertForm.mx_internal::buttons[0]);
 
+			Analytics.getInstance().track("/generate/copy/start");
 			debug("copying to : " + _targetFolder.nativePath);
 		}
 
 		private function copyComplete(event : Event) : void {
 			PopUpManager.removePopUp(_alert);
 
+			Analytics.getInstance().track("/generate/copy/complete");
 			// process file content
 			_blueprintFileManipulator.start(_targetFolder);
 		}
