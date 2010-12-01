@@ -64,7 +64,7 @@ package nl.base42.plow.data.dto {
 				var file : File = plowConfigFile();
 				var fileStream : FileStream = new FileStream();
 				fileStream.open(file, FileMode.READ);
-				var xml : XML = XML(fileStream.readMultiByte(file.size, File.systemCharset));
+				var xml : XML = XML(fileStream.readUTFBytes(file.size));
 				fileStream.close();
 				_replaceFields = Parser.parseList(xml.child("replaces").child("replace"), BlueprintReplaceData);
 			} else {
