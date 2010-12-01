@@ -35,6 +35,8 @@
 			private function checkForUpdate() : void {
 				LogMeister.addLogger(new TrazzleConnector(stage, "Plow"));
 
+				loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtErrorHandler);
+
 				debug("Start plow");
 
 				var appXML : XML = NativeApplication.nativeApplication.applicationDescriptor;
@@ -50,6 +52,16 @@
 				_appUpdater.initialize();
 
 				initApplication();
+			}
+
+			private function uncaughtErrorHandler(event : UncaughtErrorEvent) : void {
+				var message : String = String(event);
+				if (event.error is Error) {
+					message = Error(event.error).message;
+				} else if (event.error is ErrorEvent) {
+					message = ErrorEvent(event.error).text;
+				}
+				error("uncaughtErrorHandler: " + message);
 			}
 
 			private function onUpdate(event : UpdateEvent) : void {

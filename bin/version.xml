@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0">
-<version>0.9e</version>
+<version>1.0 alpha</version>
 <url>http://projects.base42.nl/plow/plow.air</url>
 <description><![CDATA[
+Version 1.0 alpha
+- Create sample plow.xml updated (didn't work in release version)
+
+Version 0.9f
+- Error logging with UncaughtErrorEvent.UNCAUGHT_ERROR
+
 Version 0.9e
-- start sequence updated
+- Start sequence enhanced
 
 Version 0.9d
 - Changed the resize behavior

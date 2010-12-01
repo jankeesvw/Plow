@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/2.0"
-	minimumPatchLevel="0">
+<application xmlns="http://ns.adobe.com/air/application/2.0" minimumPatchLevel="0">
 
 	<id>nl.base42.Plow</id>
 	<name>Plow</name>
-	<version>0.9e</version>
+	<version>1.0 alpha</version>
 	<filename>Plow</filename>
 	<copyright>Copyright 2010, Base 42</copyright>
 

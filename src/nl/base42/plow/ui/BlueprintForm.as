@@ -1,17 +1,19 @@
 package nl.base42.plow.ui {
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.filesystem.File;
+	import nl.base42.plow.data.PlowFileManipulator;
+	import nl.base42.plow.data.dto.BlueprintData;
+	import nl.base42.plow.data.dto.BlueprintReplaceData;
+
+	import spark.components.Button;
+	import spark.components.Group;
+
 	import mx.controls.Alert;
 	import mx.controls.Text;
 	import mx.core.mx_internal;
 	import mx.managers.PopUpManager;
-	import nl.base42.plow.data.PlowFileManipulator;
-	import nl.base42.plow.data.dto.BlueprintData;
-	import nl.base42.plow.data.dto.BlueprintReplaceData;
-	import nl.base42.plow.utils.PositionDebugBehavior;
-	import spark.components.Button;
-	import spark.components.Group;
+
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.filesystem.File;
 
 	/**
 	 * @author jankees [at] base42.nl
@@ -67,6 +69,7 @@ package nl.base42.plow.ui {
 				createSampleXML.x = 34;
 				createSampleXML.y = 82;
 				addElement(createSampleXML);
+				status("buildForm: ");
 			}
 		}
 
