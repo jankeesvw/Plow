@@ -69,7 +69,6 @@ package nl.base42.plow.ui {
 				createSampleXML.x = 34;
 				createSampleXML.y = 82;
 				addElement(createSampleXML);
-				status("buildForm: ");
 			}
 		}
 
